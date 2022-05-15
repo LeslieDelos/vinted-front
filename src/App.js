@@ -27,6 +27,8 @@ function App() {
       Cookies.remove("userToken");
       setUserToken(null);
     }
+
+    setUserToken(token);
   };
   return (
     <Router>
@@ -37,6 +39,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/offer/:id" element={<Offer />} />
         <Route path="/publish" element={<Publish userToken={userToken} />} />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </Router>
   );

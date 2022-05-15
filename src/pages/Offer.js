@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 const Offer = () => {
@@ -11,12 +11,16 @@ const Offer = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `https://lereacteur-vinted-api.herokuapp.com/offer/${id}`
-      );
-      console.log(response.data);
-      setData(response.data);
-      setIsLoading(false);
+      try {
+        const response = await axios.get(
+          `https://lereacteur-vinted-api.herokuapp.com/offer/${id}`
+        );
+        // console.log(response.data);
+        setData(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, [id]);
@@ -26,18 +30,20 @@ const Offer = () => {
   ) : (
     <div>
       <h2>{data.product_name}</h2>
-      <span>{data.product_price}</span>
       <div>
         {data.product_details.map((item, index) => {
-          const keys = Object.keys(item);
+          const keyName = Object.keys(item);
 
           return (
             <div key={index}>
-              {keys[0]} : {item[keys[0]]}
+              <spans>{keyName[0]}</spans> <span>{item[keyName[0]]}</span>
             </div>
           );
         })}
       </div>
+      <Link to="/payment" state={{ data: data }}>
+        Acheter
+      </Link>
     </div>
   );
 };
